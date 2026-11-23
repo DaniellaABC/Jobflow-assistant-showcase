@@ -42,7 +42,7 @@ node src/workflow.test.js
 
 - **V2.1 独立本地工作区**：不同使用者的数据分类管理、独立简历与投递记录、备份及恢复。
 - **公开 Beta**：更广泛的真实招聘网站测试、权限缩减与异常恢复。
-- **V3.0 商业版（规划）**：正式安装/更新、隐私合规、授权与售后支持。尚未发布或销售。
+- **V3.0 商业候选测试版（私有）**：已制作本地安装和升级包、隐私控制及离线签名授权原型；**尚未连接支付、完成真实网站验收或通过商店审核，未正式上市**。完整商业源码不在本公开仓库。
 
 ### 安全与开发声明
 
@@ -84,7 +84,7 @@ Repository layout: `demo/` (offline UI), `src/` (sample duplicate detection and 
 
 - **V2.1 Local workspaces:** Separate résumé records, application queues, and backup/restore per local workspace.
 - **Public beta:** Expand recruitment-site testing, minimize permissions, and improve error recovery.
-- **V3.0 Commercial release (planned):** Installer and updates, privacy controls, licensing, and support. **Not yet released or sold.**
+- **V3.0 Private commercial beta:** A local install/upgrade candidate, privacy controls, and offline signed-license prototype have been developed. **Payment integration, live-site QA, and store certification remain pending; not publicly released or sold.** Commercial source code is not included here.
 
 ### Safety & attribution
 
