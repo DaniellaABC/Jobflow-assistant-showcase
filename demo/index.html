@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JobFlow Assistant — Portfolio Demo</title>
+<style>
+:root{font-family:system-ui,"Microsoft YaHei",sans-serif;color:#1f2937;background:#f5f7fb}*{box-sizing:border-box}body{margin:0}
+main{max-width:940px;margin:40px auto;padding:0 20px}h1{font-size:32px;margin:0}p{color:#5d697a;line-height:1.6}
+section{background:white;border:1px solid #e1e6f0;border-radius:14px;margin:20px 0;padding:22px;box-shadow:0 3px 12px #1f29370a}
+h2{font-size:19px;margin:0 0 16px}.notice{border:1px solid #b9d7ff;background:#edf5ff;border-radius:10px;padding:15px;margin-top:20px}
+.stats,.form-row{display:flex;gap:15px;flex-wrap:wrap}.stat{flex:1;min-width:120px;padding:15px;background:#f4f7fc;border-radius:9px}
+.stat b{font-size:28px;display:block}label{display:block;font-weight:600;font-size:13px;margin:12px 0 6px}
+input{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:8px;font:inherit}.field{flex:1;min-width:210px}
+button{border:0;background:#2369cd;color:#fff;padding:11px 16px;border-radius:8px;cursor:pointer;font-weight:600}
+button.ghost{background:#e9eff9;color:#253a59}button:focus-visible,input:focus-visible{outline:3px solid #9fc9ff}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:12px;border-bottom:1px solid #e5eaf2;font-size:14px}
+small{color:#66758b}@media(max-width:600px){table{display:block;overflow-x:auto}}
+</style>
+</head>
+<body><main>
+<header><h1>JobFlow Assistant</h1><p>简历复用与岗位申请管理 · GitHub Portfolio Demo</p></header>
+<div class="notice"><b>安全演示：</b>所有公司和岗位均为虚构数据。此演示离线运行，不读取真实简历、不访问招聘平台、不上传数据，也不会自动提交申请。</div>
+<section><h2>任务概览</h2><div class="stats"><div class="stat"><small>任务总数</small><b id="total">2</b></div><div class="stat"><small>已提交（手动标记）</small><b id="done">0</b></div><div class="stat"><small>待处理</small><b id="todo">2</b></div></div></section>
+<section><h2>添加模拟岗位</h2><div class="form-row"><div class="field"><label for="company">公司名称</label><input id="company" placeholder="例如：示例咨询公司" maxlength="120"></div><div class="field"><label for="position">岗位名称</label><input id="position" placeholder="例如：Business Analyst" maxlength="120"></div></div><p><button id="add" type="button">添加任务并检查重复</button></p><p id="feedback" role="status"></p></section>
+<section><h2>岗位队列</h2><table><thead><tr><th>公司</th><th>岗位</th><th>状态</th><th>操作</th></tr></thead><tbody id="jobs"></tbody></table></section>
+<section><h2>缺失资料提问示例</h2><p>不会推测或编造求职者的期望薪资。</p><label for="salary">期望月薪（人民币）</label><input id="salary" placeholder="请输入示例金额"><p><button id="check" type="button">检查缺失信息</button></p><p id="questions" role="status"></p></section>
+<p><small>这是作品集模拟程序。真实浏览器扩展仍在测试中，不包含于本仓库。</small></p>
+</main><script>
+'use strict';
+const rows=[{company:'示例科技公司',position:'Business Analyst',status:'待核实'},{company:'示例研究机构',position:'Market Research Analyst',status:'待核实'}];
+const $=id=>document.getElementById(id);
+const norm=v=>String(v).normalize('NFKC').replace(/\s+/g,'').trim().toLowerCase();
+function render(){
+ $('jobs').replaceChildren();
+ for(const r of rows){
+  const tr=document.createElement('tr');
+  for(const value of [r.company,r.position,r.status]){
+   const td=document.createElement('td');td.textContent=value;tr.append(td);
+  }
+  const td=document.createElement('td'),button=document.createElement('button');
+  button.className='ghost';button.textContent=r.status==='已提交'?'撤销标记':'标记人工已提交';
+  button.onclick=()=>{r.status=r.status==='已提交'?'待核实':'已提交';render()};
+  td.append(button);tr.append(td);$('jobs').append(tr);
+ }
+ $('total').textContent=String(rows.length);
+ $('done').textContent=String(rows.filter(r=>r.status==='已提交').length);
+ $('todo').textContent=String(rows.filter(r=>r.status!=='已提交').length);
+}
+$('add').onclick=()=>{
+ const company=$('company').value.trim(),position=$('position').value.trim();
+ if(!company||!position){$('feedback').textContent='请填写公司和岗位名称。';return}
+ if(rows.some(r=>norm(r.company)===norm(company)&&norm(r.position)===norm(position))){
+  $('feedback').textContent='检测到同一公司同一岗位：未重复添加。';return;
+ }
+ rows.push({company,position,status:'待核实'});$('feedback').textContent='已添加模拟岗位。';render();
+};
+$('check').onclick=()=>{$('questions').textContent=$('salary').value.trim()
+ ? '已收到输入值。演示不会保存或上传数据。'
+ : '缺少期望月薪：请由用户本人填写，程序不会猜测。'};
+render();
+</script></body></html>
