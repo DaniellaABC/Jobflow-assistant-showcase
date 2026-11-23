@@ -60,7 +60,3 @@ flowchart TD
 ## Roadmap / 规划
 
 见 [公开发布验收清单](docs/release_checklist.md) 与 [架构说明](docs/architecture.md)。
-
-## AI 辅助开发声明
-
-项目由产品提出者负责需求、流程设计、验证与集成，其中部分代码和文档使用 AI 工具辅助生成，仍需人工检查、测试和维护。
