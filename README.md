@@ -1,62 +1,93 @@
-# JobFlow Assistant｜智能求职填表助手（作品集展示版）
+# JobFlow Assistant
 
-> **Portfolio demo / not a production extension.** 这是从私人求职工具提炼的**公开展示仓库**，不包含用户数据、真实简历、登录凭据、付费授权系统或商业完整版的自动填表引擎。
+**AI-assisted job application workflow · 智能求职申请辅助工具**
 
-## 解决什么问题？
+[中文说明](#中文说明) · [English](#english)
 
-多平台求职经常需要重复填写学校、实习、项目和联系方式。本项目探索：
+> **Portfolio showcase / 作品集演示仓库**  
+> The public repository is a **privacy-safe demonstration**, not the full production extension.  
+> 本公开仓库仅展示脱敏原型、示例代码和系统设计，不包含实际求职者简历、浏览器登录信息或商业核心代码。
 
-1. 接收单个职位链接或 Excel 招聘链接清单；
-2. 将用户主动输入的履历组织为结构化资料；
-3. 在**用户明确授权后**，辅助匹配网页申请表字段；
-4. 无法确定的字段先提问，不猜测；
-5. 最终提交仍由用户本人操作；
-6. 记录已经申请的岗位，减少重复投递。
+---
 
-## 当前状态
+## 中文说明
 
-- **个人原型 V2.0：** 已有 Edge Manifest V3 扩展、Excel 队列、单链接入口、完整简历资料、缺项提问等功能；**不保证各招聘平台兼容**。
-- **本仓库：** 展示数据结构、岗位去重规则和模拟流程，**不包含实际招聘网站自动填表的代码**。
-- **发布状态：** 尚未发布到 Microsoft Edge Add-ons，未通过第三方审计；请勿作为成熟商业软件销售。
+### 项目介绍
 
-## 本地运行演示
+JobFlow Assistant 是一款面向求职者的浏览器辅助工具原型，旨在减少重复填写招聘申请表的时间，并让申请过程更易管理。
 
-下载本仓库，双击 `demo/index.html`：使用全虚构的求职示例数据，体验任务队列、状态变更、防重复提醒和缺失字段提问。演示不会访问招聘网站或发送数据。
+个人原型已经探索的工作流程：
 
-## 代码示例和测试
+1. **导入链接**：粘贴单个招聘链接，或从 Excel / CSV 导入职位清单。
+2. **复用简历**：维护中英文结构化简历，包括教育、工作、项目、技能与自我介绍。
+3. **检查字段**：辅助识别招聘网页上的申请表内容，向用户展示拟填写的数据。
+4. **缺失信息提问**：无法判断的内容交给用户填写，不臆测薪资、学历、日期和个人信息。
+5. **人工确认提交**：登录、验证码、附件上传及最终提交由用户完成。
+6. **记录状态**：维护职位队列、申请状态与重复投递提醒。
 
-需要 Node.js 18+（可选）：
+**当前状态：** 个人 Edge 扩展原型已实现基础流程，但尚未完成跨网站兼容性、安全审查及公开商业发布。本仓库提供可以离线打开的演示页面和单元测试。
 
-```sh
+### 体验展示版
+
+打开 [demo/index.html](demo/index.html) 查看纯本地、全部采用虚构数据的交互示例。
+
+```bash
+# 可选：安装 Node.js 18+ 后运行代码示例测试
 node src/workflow.test.js
 ```
 
-`src/workflow.sample.js` 演示岗位去重与安全状态更新（**不是**实际浏览器自动化主代码）。
+**本仓库包含：** `demo/`（模拟界面）、`src/`（岗位去重与缺失字段演示）、`docs/`（系统架构、发布验收与商业化规划）。
 
-## 架构示意
+### 产品路线
 
-```mermaid
-flowchart TD
-  A[用户上传Excel / 单链接] --> B[招聘任务队列]
-  B --> C[用户打开并登录官网]
-  C --> D[网页字段检测]
-  E[用户本地完整简历] --> D
-  D --> F{缺失/歧义字段?}
-  F -->|是| G[询问用户]
-  G --> H[用户确认填写]
-  F -->|否| H
-  H --> I[用户检查并手动提交]
-  I --> J[投递记录与防重复]
+- **V2.1 独立本地工作区**：不同使用者的数据分类管理、独立简历与投递记录、备份及恢复。
+- **公开 Beta**：更广泛的真实招聘网站测试、权限缩减与异常恢复。
+- **V3.0 商业版（规划）**：正式安装/更新、隐私合规、授权与售后支持。尚未发布或销售。
+
+### 安全与开发声明
+
+此工具不会绕过登录、验证码或访问控制，不承诺所有网站都能自动填写，也不自动替用户点击最终提交。招聘网站可能在输入时自动保存草稿。真实简历数据不应提交到公开仓库。
+
+部分实现和文档由 AI 工具辅助编写，并由项目维护者负责需求、测试和集成。本仓库未添加开源许可证；公开可查看不代表获准复制或商业再分发。
+
+---
+
+## English
+
+### Overview
+
+**JobFlow Assistant** is an early-stage browser-assisted job application tool designed to reduce repetitive form entry while keeping applicants in control of their submissions.
+
+The personal prototype explores the following workflow:
+
+1. **Import job links:** Paste a single job URL or import an Excel/CSV list.
+2. **Reuse a structured résumé:** Organize multilingual education, employment, projects, skills, and personal statements.
+3. **Review form matches:** Inspect detected application fields and proposed résumé values before filling.
+4. **Ask for missing information:** Prompt the applicant when a required answer is unknown or ambiguous, rather than inventing details.
+5. **Keep a human in the loop:** Users handle authentication, CAPTCHA, attachments, and final submission.
+6. **Track applications:** Maintain queues, application statuses, and duplicate-submission warnings.
+
+**Current status:** The personal Edge extension prototype supports parts of this workflow. Broad compatibility across recruitment websites, security reviews, and commercial release requirements are **not yet complete**. This repository contains a sanitized, offline demo and sample logic rather than the full extension.
+
+### Try the portfolio demo
+
+Open [demo/index.html](demo/index.html) locally. It uses fictional data and does not connect to job boards.
+
+```bash
+# Optional: run sample unit tests with Node.js 18+
+node src/workflow.test.js
 ```
 
-## 公开与商业产品的边界
+Repository layout: `demo/` (offline UI), `src/` (sample duplicate detection and missing-answer logic), and `docs/` (architecture, release checklist, and commercialization plan).
 
-- 本仓库为作品集演示，**不是全部源代码**；生产版建议放在 GitHub 私有仓库。
-- 不能绕过登录、验证码或招聘网站访问控制；遵守相关网站服务条款。
-- 简历包含个人信息。正式产品需具备透明的隐私说明、数据删除和导出机制、最小权限配置和安全测试。
-- 不宣称“100% 成功投递”“自动获得面试”。
-- 本仓库**尚未授予开源许可证**，保留所有权利。公开浏览不等于授权商业复制或再分发。若决定开源，请另行选择明确的 LICENSE。
+### Roadmap
 
-## Roadmap / 规划
+- **V2.1 Local workspaces:** Separate résumé records, application queues, and backup/restore per local workspace.
+- **Public beta:** Expand recruitment-site testing, minimize permissions, and improve error recovery.
+- **V3.0 Commercial release (planned):** Installer and updates, privacy controls, licensing, and support. **Not yet released or sold.**
 
-见 [公开发布验收清单](docs/release_checklist.md) 与 [架构说明](docs/architecture.md)。
+### Safety & attribution
+
+The tool does not bypass authentication, CAPTCHA, or access controls. It does not guarantee compatibility with every hiring platform or auto-submit applications. Some recruitment sites may save drafts during data entry. Do not publish real applicants' résumés or credentials.
+
+Parts of the implementation and documentation were created with AI assistance; project requirements, verification, and integration remain the maintainer's responsibility. **No open-source license has been granted for this repository.**
